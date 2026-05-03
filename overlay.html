@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>Putrajaya Lakeside Living - OBS Overlay</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+  }
+
+  /* ===== TOP-LEFT INFO CARD ===== */
+  .info-card {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    background: rgba(30, 30, 30, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 16px;
+    padding: 28px 32px 22px;
+    min-width: 320px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .info-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .info-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .info-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d4a843, #c49a2a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .info-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: #1a1a1a;
+  }
+
+  .info-text {
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    color: #f0f0f0;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .card-divider {
+    height: 1px;
+    background: linear-gradient(90deg, #d4a843, rgba(212, 168, 67, 0.2));
+    margin: 14px 0;
+  }
+
+  .info-date {
+    font-size: 19px;
+    font-weight: 400;
+    color: #e0e0e0;
+    padding-left: 4px;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  /* ===== TOP-RIGHT LOGO ===== */
+  .logo-container {
+    position: absolute;
+    top: 40px;
+    right: 50px;
+    text-align: center;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+  }
+
+  .logo-waves {
+    margin-bottom: 8px;
+  }
+
+  .logo-waves svg {
+    width: 160px;
+    height: 40px;
+  }
+
+  .logo-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 4px;
+    line-height: 1.1;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+  }
+
+  .logo-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #d4a843;
+    letter-spacing: 6px;
+    margin-top: 4px;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+  }
+
+  /* ===== BOTTOM INFO BAR ===== */
+  .bottom-bar {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid #d4a843;
+    border-radius: 50px;
+    padding: 12px 36px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .bar-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 22px;
+    border-right: 1.5px solid rgba(212, 168, 67, 0.4);
+    white-space: nowrap;
+  }
+
+  .bar-section:last-child {
+    border-right: none;
+  }
+
+  .bar-section:first-child {
+    padding-left: 6px;
+  }
+
+  .bar-section:last-child {
+    padding-right: 6px;
+  }
+
+  .bar-icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .bar-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: #d4a843;
+  }
+
+  .bar-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #f0f0f0;
+    letter-spacing: 0.5px;
+  }
+
+  .bar-text-small {
+    font-size: 14px;
+    font-weight: 400;
+    color: #ccc;
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP-LEFT INFO CARD -->
+<div class="info-card">
+  <div class="info-row">
+    <div class="info-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg>
+    </div>
+    <div class="info-text" id="card-time">--:--:-- --</div>
+  </div>
+  <div class="info-row">
+    <div class="info-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    </div>
+    <div class="info-text">MY, Putrajaya</div>
+  </div>
+  <div class="info-row">
+    <div class="info-icon">
+      <svg viewBox="0 0 24 24"><path d="M15 13V5c0-1.66-1.34-3-3-3S9 3.34 9 5v8c-1.21.91-2 2.37-2 4 0 2.76 2.24 5 5 5s5-2.24 5-5c0-1.63-.79-3.09-2-4zm-4-8c0-.55.45-1 1-1s1 .45 1 1h-1v1h1v2h-1v1h1v2h-2V5z"/></svg>
+    </div>
+    <div class="info-text" id="card-weather">-- °C | -- °F</div>
+  </div>
+  <div class="card-divider"></div>
+  <div class="info-date" id="card-date">--/--/----</div>
+</div>
+
+<!-- TOP-RIGHT LOGO -->
+<div class="logo-container">
+  <div class="logo-waves">
+    <svg viewBox="0 0 160 40" fill="none">
+      <path d="M20 28 C40 18, 60 18, 80 28 C100 38, 120 38, 140 28" stroke="#d4a843" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M20 22 C40 12, 60 12, 80 22 C100 32, 120 32, 140 22" stroke="#d4a843" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M30 16 C48 8, 65 8, 80 16 C95 24, 112 24, 130 16" stroke="#d4a843" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+    </svg>
+  </div>
+  <div class="logo-title">PUTRAJAYA</div>
+  <div class="logo-subtitle">LAKESIDE LIVING</div>
+</div>
+
+<!-- BOTTOM INFO BAR -->
+<div class="bottom-bar">
+  <!-- Location -->
+  <div class="bar-section">
+    <div class="bar-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    </div>
+    <div class="bar-text">PUTRAJAYA, MY</div>
+  </div>
+  <!-- Temperature -->
+  <div class="bar-section">
+    <div class="bar-icon">
+      <svg viewBox="0 0 24 24"><path d="M15 13V5c0-1.66-1.34-3-3-3S9 3.34 9 5v8c-1.21.91-2 2.37-2 4 0 2.76 2.24 5 5 5s5-2.24 5-5c0-1.63-.79-3.09-2-4zm-4-8c0-.55.45-1 1-1s1 .45 1 1h-1v1h1v2h-1v1h1v2h-2V5z"/></svg>
+    </div>
+    <div class="bar-text" id="bar-temp-c">--°C</div>
+    <div class="bar-text-small">|</div>
+    <div class="bar-text" id="bar-temp-f">--°F</div>
+  </div>
+  <!-- Weather Condition -->
+  <div class="bar-section">
+    <div class="bar-icon" id="bar-weather-icon-container">
+      <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+    </div>
+    <div class="bar-text" id="bar-condition">--</div>
+  </div>
+  <!-- Day/Time -->
+  <div class="bar-section">
+    <div class="bar-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg>
+    </div>
+    <div class="bar-text" id="bar-daytime">--</div>
+  </div>
+  <!-- Humidity -->
+  <div class="bar-section">
+    <div class="bar-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2c-5.33 4.55-8 8.48-8 11.8 0 4.98 3.8 8.2 8 8.2s8-3.22 8-8.2C20 10.48 17.33 6.55 12 2zm0 18c-3.35 0-6-2.57-6-6.2 0-2.34 1.95-5.44 6-9.14 4.05 3.7 6 6.79 6 9.14 0 3.63-2.65 6.2-6 6.2z"/><text x="8.5" y="17" font-size="8" font-weight="bold" fill="#d4a843" font-family="sans-serif">%</text></svg>
+    </div>
+    <div class="bar-text" id="bar-humidity">--%</div>
+  </div>
+  <!-- Wind -->
+  <div class="bar-section">
+    <div class="bar-icon">
+      <svg viewBox="0 0 24 24"><path d="M14.5 17c0 1.65-1.35 3-3 3s-3-1.35-3-3h2c0 .55.45 1 1 1s1-.45 1-1-.45-1-1-1H2v-2h9.5c1.65 0 3 1.35 3 3zM19 12.5c0 1.65-1.35 3-3 3h-8v-2h8c.55 0 1-.45 1-1s-.45-1-1-1H2v-2h14c1.65 0 3 1.35 3 3zM18 5c0 1.1-.9 2-2 2H2V5h14c0-.55-.45-1-1-1H2V2h13c1.65 0 3 1.35 3 3z"/></svg>
+    </div>
+    <div class="bar-text" id="bar-wind">-- m/s</div>
+  </div>
+</div>
+
+<script>
+// ===== CONFIGURATION =====
+// Edit these values to customize your overlay
+const CONFIG = {
+  // OpenWeatherMap API key - GET YOUR FREE KEY at https://openweathermap.org/api
+  API_KEY: 'YOUR_API_KEY_HERE',
+
+  // Putrajaya coordinates
+  LAT: 2.9264,
+  LON: 101.6964,
+
+  // Weather refresh interval (milliseconds) - default 15 minutes
+  WEATHER_INTERVAL: 15 * 60 * 1000,
+
+  // Timezone offset from UTC in hours (Malaysia = +8)
+  TIMEZONE_OFFSET: 8
+};
+
+// ===== TIME & DATE =====
+function updateTime() {
+  const now = new Date();
+  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+  const local = new Date(utc + CONFIG.TIMEZONE_OFFSET * 3600000);
+
+  let hours = local.getHours();
+  const minutes = String(local.getMinutes()).padStart(2, '0');
+  const seconds = String(local.getSeconds()).padStart(2, '0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12;
+
+  const timeStr = `${hours}:${minutes}:${seconds} ${ampm}`;
+  document.getElementById('card-time').textContent = timeStr;
+
+  const dayHour = local.getHours();
+  const dayLabel = (dayHour >= 6 && dayHour < 18) ? 'DAY' : 'NIGHT';
+  document.getElementById('bar-daytime').textContent = `${dayLabel} ${hours}:${minutes}:${seconds} ${ampm}`;
+
+  const day = String(local.getDate()).padStart(2, '0');
+  const month = String(local.getMonth() + 1).padStart(2, '0');
+  const year = local.getFullYear();
+  document.getElementById('card-date').textContent = `${day}-${month}-${year}`;
+}
+
+// ===== WEATHER =====
+async function fetchWeather() {
+  if (CONFIG.API_KEY === 'YOUR_API_KEY_HERE') {
+    document.getElementById('card-weather').textContent = 'Set API key in overlay.html';
+    document.getElementById('bar-temp-c').textContent = '--°C';
+    document.getElementById('bar-temp-f').textContent = '--°F';
+    document.getElementById('bar-condition').textContent = 'NO API KEY';
+    document.getElementById('bar-humidity').textContent = '--%';
+    document.getElementById('bar-wind').textContent = '-- m/s';
+    return;
+  }
+
+  try {
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${CONFIG.LAT}&lon=${CONFIG.LON}&units=metric&appid=${CONFIG.API_KEY}`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.cod !== 200) {
+      console.error('Weather API error:', data.message);
+      return;
+    }
+
+    const tempC = data.main.temp.toFixed(1);
+    const tempF = (data.main.temp * 9/5 + 32).toFixed(1);
+    const condition = data.weather[0].main;
+    const description = data.weather[0].description;
+    const humidity = data.main.humidity;
+    const wind = data.wind.speed.toFixed(1);
+
+    const conditionTitle = description.charAt(0).toUpperCase() + description.slice(1);
+    document.getElementById('card-weather').textContent = `${conditionTitle} ${tempC} °C | ${tempF} °F`;
+
+    document.getElementById('bar-temp-c').textContent = `${tempC}°C`;
+    document.getElementById('bar-temp-f').textContent = `${tempF}°F`;
+    document.getElementById('bar-condition').textContent = condition.toUpperCase();
+    document.getElementById('bar-humidity').textContent = `${humidity}%`;
+    document.getElementById('bar-wind').textContent = `${wind} m/s`;
+
+  } catch (err) {
+    console.error('Weather fetch failed:', err);
+  }
+}
+
+// ===== INIT =====
+updateTime();
+setInterval(updateTime, 1000);
+
+fetchWeather();
+setInterval(fetchWeather, CONFIG.WEATHER_INTERVAL);
+</script>
+</body>
+</html>

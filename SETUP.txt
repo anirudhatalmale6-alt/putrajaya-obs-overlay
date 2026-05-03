@@ -1,0 +1,98 @@
+========================================
+  PUTRAJAYA LAKESIDE LIVING
+  OBS Overlay - Setup Guide
+========================================
+
+WHAT'S INCLUDED
+---------------
+- overlay.html : The complete overlay with all 4 elements
+  (clock, date, weather, channel name/logo, bottom info bar)
+
+
+STEP 1: GET A FREE WEATHER API KEY
+-----------------------------------
+1. Go to https://openweathermap.org/api
+2. Click "Sign Up" and create a free account
+3. After signing in, go to "API keys" in your profile
+4. Copy your API key (it looks like: a1b2c3d4e5f6...)
+5. Note: New API keys take about 10 minutes to activate
+
+
+STEP 2: ADD YOUR API KEY TO THE OVERLAY
+----------------------------------------
+1. Open overlay.html in any text editor (Notepad, VS Code, etc.)
+2. Find this line near the top of the <script> section:
+
+   API_KEY: 'YOUR_API_KEY_HERE',
+
+3. Replace YOUR_API_KEY_HERE with your actual API key:
+
+   API_KEY: 'a1b2c3d4e5f6...',
+
+4. Save the file
+
+
+STEP 3: ADD TO OBS
+-------------------
+1. Open OBS Studio
+2. In your Scene, click "+" under Sources
+3. Select "Browser"
+4. Name it "Putrajaya Overlay" and click OK
+5. Check "Local file" and browse to overlay.html
+6. Set Width: 1920 and Height: 1080
+7. Click OK
+8. The overlay will appear over your camera feed
+
+
+CUSTOMIZATION
+--------------
+Everything you can change is in the CONFIG section at the top of the script:
+
+  API_KEY          : Your OpenWeatherMap API key
+  LAT / LON        : Coordinates (default: Putrajaya 2.9264, 101.6964)
+  WEATHER_INTERVAL : How often weather updates (default: 15 minutes)
+  TIMEZONE_OFFSET  : UTC offset (default: +8 for Malaysia)
+
+To change colors:
+  Search for #d4a843 - this is the gold/amber color used throughout.
+  Replace with any hex color you prefer.
+
+To change fonts:
+  The overlay uses:
+  - Playfair Display (logo title)
+  - Montserrat (logo subtitle)
+  - Inter (info text)
+  These are loaded from Google Fonts automatically.
+
+To change the channel name:
+  Find the "logo-title" and "logo-subtitle" divs in the HTML
+  and change the text.
+
+To reposition elements:
+  Each section has position values (top, left, right, bottom)
+  in the CSS. Adjust these pixel values to move things around.
+
+
+NOTES
+------
+- The clock updates every second (real-time ticking)
+- Weather refreshes every 15 minutes by default
+- Date rolls over automatically at midnight
+- The overlay background is transparent - only the UI elements show
+- Time is set to Malaysia timezone (UTC+8) by default
+- The free OpenWeatherMap plan allows 1000 API calls per day
+  (at 15-min intervals, that's only 96 calls - plenty of room)
+
+
+TROUBLESHOOTING
+----------------
+- Weather shows "NO API KEY": You need to add your API key (Step 2)
+- Weather not updating: Check your API key is correct and activated
+- Fonts look wrong: Make sure OBS has internet access for Google Fonts
+- Overlay not transparent: Make sure your Browser Source doesn't have
+  a background color set in OBS properties
+
+
+========================================
+  Enjoy your stream!
+========================================
